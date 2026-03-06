@@ -1,0 +1,244 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>AfiImport Step 4</title>
+
+<style>
+
+body{
+font-family:Arial;
+background:#f4f7ff;
+margin:0;
+padding:30px;
+}
+
+.container{
+max-width:1200px;
+margin:auto;
+}
+
+.header{
+background:white;
+padding:25px;
+border-radius:16px;
+box-shadow:0 10px 25px rgba(0,0,0,0.08);
+margin-bottom:20px;
+}
+
+h1{margin:0}
+
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:20px;
+}
+
+.card{
+background:white;
+border-radius:16px;
+box-shadow:0 10px 25px rgba(0,0,0,0.08);
+padding:20px;
+}
+
+.card h2{
+margin-top:0;
+}
+
+.section{
+border:1px solid #e5e7eb;
+border-radius:10px;
+padding:12px;
+margin-bottom:12px;
+background:#fafafa;
+}
+
+input{
+width:100%;
+padding:10px;
+border-radius:8px;
+border:1px solid #ddd;
+margin-top:6px;
+margin-bottom:8px;
+}
+
+button{
+background:#22c55e;
+border:none;
+padding:14px 24px;
+color:white;
+font-size:16px;
+border-radius:10px;
+cursor:pointer;
+margin-top:10px;
+}
+
+button:hover{
+background:#16a34a;
+}
+
+.result{
+background:#111827;
+color:white;
+padding:15px;
+border-radius:10px;
+margin-top:10px;
+}
+
+.compare{
+background:white;
+padding:20px;
+border-radius:16px;
+box-shadow:0 10px 25px rgba(0,0,0,0.08);
+margin-top:20px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="header">
+<h1>AfiImport</h1>
+<p>Калькулятор импорта Китай vs Россия</p>
+</div>
+
+<div class="grid">
+
+<div class="card">
+
+<h2>Китай</h2>
+
+<div class="section">
+
+<label>Цена товара</label>
+<input id="c_price">
+
+<label>Количество</label>
+<input id="c_qty">
+
+<label>Карго</label>
+<input id="c_cargo">
+
+<label>Таможня</label>
+<input id="c_customs">
+
+<label>Цена продажи</label>
+<input id="c_sale">
+
+</div>
+
+<div class="result">
+
+Общий расход: <span id="c_total">0</span><br>
+Себестоимость: <span id="c_unit">0</span><br>
+Прибыль: <span id="c_profit">0</span><br>
+Маржа: <span id="c_margin">0%</span>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>Россия</h2>
+
+<div class="section">
+
+<label>Цена товара</label>
+<input id="r_price">
+
+<label>Количество</label>
+<input id="r_qty">
+
+<label>Доставка</label>
+<input id="r_delivery">
+
+<label>Цена продажи</label>
+<input id="r_sale">
+
+</div>
+
+<div class="result">
+
+Общий расход: <span id="r_total">0</span><br>
+Себестоимость: <span id="r_unit">0</span><br>
+Прибыль: <span id="r_profit">0</span><br>
+Маржа: <span id="r_margin">0%</span>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="compare">
+
+<button onclick="calculate()">Рассчитать</button>
+<button onclick="downloadPDF()">Скачать PDF отчет</button>
+
+<h2>Сравнение</h2>
+
+<p id="winner">Нажми "Рассчитать"</p>
+
+</div>
+
+</div>
+
+<script>
+
+function calculate(){
+
+let cp = Number(document.getElementById("c_price").value) || 0
+let cq = Number(document.getElementById("c_qty").value) || 0
+let cargo = Number(document.getElementById("c_cargo").value) || 0
+let customs = Number(document.getElementById("c_customs").value) || 0
+let csale = Number(document.getElementById("c_sale").value) || 0
+
+let ctotal = cp*cq + cargo + customs
+let cunit = cq ? ctotal/cq : 0
+let cprofit = csale - cunit
+let cmargin = csale ? (cprofit/csale*100) : 0
+
+document.getElementById("c_total").innerText = ctotal.toFixed(2)
+document.getElementById("c_unit").innerText = cunit.toFixed(2)
+document.getElementById("c_profit").innerText = cprofit.toFixed(2)
+document.getElementById("c_margin").innerText = cmargin.toFixed(1) + "%"
+
+let rp = Number(document.getElementById("r_price").value) || 0
+let rq = Number(document.getElementById("r_qty").value) || 0
+let rdel = Number(document.getElementById("r_delivery").value) || 0
+let rsale = Number(document.getElementById("r_sale").value) || 0
+
+let rtotal = rp*rq + rdel
+let runit = rq ? rtotal/rq : 0
+let rprofit = rsale - runit
+let rmargin = rsale ? (rprofit/rsale*100) : 0
+
+document.getElementById("r_total").innerText = rtotal.toFixed(2)
+document.getElementById("r_unit").innerText = runit.toFixed(2)
+document.getElementById("r_profit").innerText = rprofit.toFixed(2)
+document.getElementById("r_margin").innerText = rmargin.toFixed(1) + "%"
+
+let winner = "Одинаково"
+
+if(cprofit > rprofit){ winner = "Китай выгоднее" }
+if(rprofit > cprofit){ winner = "Россия выгоднее" }
+
+document.getElementById("winner").innerText = winner
+
+}
+
+function downloadPDF(){
+window.print()
+}
+
+</script>
+
+</body>
+</html>

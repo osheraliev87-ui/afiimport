@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AfiImport</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f7fb;
+      color: #1f2937;
+      padding: 30px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .header {
+      background: white;
+      border-radius: 18px;
+      padding: 24px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+      margin-bottom: 24px;
+    }
+
+    .header h1 {
+      font-size: 34px;
+      color: #0f172a;
+      margin-bottom: 8px;
+    }
+
+    .header p {
+      color: #64748b;
+      font-size: 16px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 24px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 18px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+      overflow: hidden;
+    }
+
+    .card-title {
+      padding: 18px 22px;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .china-title {
+      background: #fee2e2;
+      color: #b91c1c;
+    }
+
+    .russia-title {
+      background: #dbeafe;
+      color: #1d4ed8;
+    }
+
+    .content {
+      padding: 20px;
+    }
+
+    .section {
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      padding: 16px;
+      margin-bottom: 16px;
+      background: #fafafa;
+    }
+
+    .section h3 {
+      font-size: 18px;
+      margin-bottom: 12px;
+      color: #111827;
+    }
+
+    .item {
+      background: white;
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+      padding: 10px 12px;
+      margin-bottom: 10px;
+      color: #475569;
+    }
+
+    .unit {
+      background: #111827;
+      color: white;
+      border-radius: 14px;
+      padding: 18px;
+      margin-top: 10px;
+    }
+
+    .unit h3 {
+      margin-bottom: 12px;
+      font-size: 18px;
+    }
+
+    .unit-boxes {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .unit-box {
+      background: rgba(255,255,255,0.08);
+      border-radius: 10px;
+      padding: 14px;
+      text-align: center;
+    }
+
+    .unit-box span {
+      display: block;
+      font-size: 13px;
+      color: #cbd5e1;
+      margin-bottom: 6px;
+    }
+
+    .compare {
+      background: white;
+      border-radius: 18px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+      padding: 22px;
+    }
+
+    .compare h2 {
+      margin-bottom: 18px;
+      font-size: 26px;
+      color: #0f172a;
+    }
+
+    .compare-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .compare-box {
+      border-radius: 14px;
+      padding: 18px;
+    }
+
+    .compare-china {
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+    }
+
+    .compare-russia {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+    }
+
+    .compare-box h3 {
+      margin-bottom: 12px;
+    }
+
+    .compare-item {
+      background: white;
+      border-radius: 10px;
+      padding: 10px 12px;
+      margin-bottom: 10px;
+      border: 1px solid #e5e7eb;
+    }
+
+    @media (max-width: 900px) {
+      .grid,
+      .compare-grid,
+      .unit-boxes {
+        grid-template-columns: 1fr;
+      }
+
+      body {
+        padding: 16px;
+      }
+
+      .header h1 {
+        font-size: 28px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <div class="header">
+      <h1>AfiImport</h1>
+      <p>Простой расчет товара из Китая и России</p>
+    </div>
+
+    <div class="grid">
+
+      <div class="card">
+        <div class="card-title china-title">1. Заказ товара из Китая</div>
+        <div class="content">
+
+          <div class="section">
+            <h3>1. Товар</h3>
+            <div class="item">Название товара</div>
+            <div class="item">Цена товара (¥ / $)</div>
+            <div class="item">Количество</div>
+            <div class="item">Общая сумма</div>
+            <div class="item">Вес товара</div>
+          </div>
+
+          <div class="section">
+            <h3>2. Фулфилмент Китай</h3>
+            <div class="item">Упаковка</div>
+            <div class="item">Рабочие</div>
+            <div class="item">Доставка WenZhou → Yiwu</div>
+          </div>
+
+          <div class="section">
+            <h3>3. Мелкие расходы</h3>
+            <div class="item">Дополнительные расходы</div>
+          </div>
+
+          <div class="section">
+            <h3>4. Доставка карго Китай → Россия</h3>
+            <div class="item">Карго</div>
+            <div class="item">Таможня</div>
+            <div class="item">Упаковка</div>
+          </div>
+
+          <div class="section">
+            <h3>5. Получение товара в Москве</h3>
+            <div class="item">Доставка Россия</div>
+            <div class="item">Заезд машины на рынок</div>
+            <div class="item">Рабочие</div>
+          </div>
+
+          <div class="unit">
+            <h3>6. Unit экономика Китай</h3>
+            <div class="unit-boxes">
+              <div class="unit-box">
+                <span>Общий расход</span>
+                0
+              </div>
+              <div class="unit-box">
+                <span>Себестоимость</span>
+                0
+              </div>
+              <div class="unit-box">
+                <span>Прибыль</span>
+                0
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title russia-title">2. Заказ товара из России</div>
+        <div class="content">
+
+          <div class="section">
+            <h3>1. Товар</h3>
+            <div class="item">Название товара</div>
+            <div class="item">Цена товара</div>
+            <div class="item">Количество</div>
+            <div class="item">Общая сумма</div>
+            <div class="item">Вес товара</div>
+          </div>
+
+          <div class="section">
+            <h3>2. Фулфилмент</h3>
+            <div class="item">Забрать товар с рынка</div>
+            <div class="item">Упаковка</div>
+            <div class="item">Приемка</div>
+          </div>
+
+          <div class="unit">
+            <h3>3. Unit экономика Россия</h3>
+            <div class="unit-boxes">
+              <div class="unit-box">
+                <span>Общий расход</span>
+                0
+              </div>
+              <div class="unit-box">
+                <span>Себестоимость</span>
+                0
+              </div>
+              <div class="unit-box">
+                <span>Прибыль</span>
+                0
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+    <div class="compare">
+      <h2>3. Сравнение: Китай vs Россия</h2>
+      <div class="compare-grid">
+        <div class="compare-box compare-china">
+          <h3>Китай</h3>
+          <div class="compare-item">Общий расход</div>
+          <div class="compare-item">Себестоимость</div>
+          <div class="compare-item">Прибыль</div>
+          <div class="compare-item">Маржа</div>
+        </div>
+
+        <div class="compare-box compare-russia">
+          <h3>Россия</h3>
+          <div class="compare-item">Общий расход</div>
+          <div class="compare-item">Себестоимость</div>
+          <div class="compare-item">Прибыль</div>
+          <div class="compare-item">Маржа</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>

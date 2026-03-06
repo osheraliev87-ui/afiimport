@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AfiImport</title>
+  <style>
+    :root{
+      --bg:#f3f7ff;
+      --card:#ffffff;
+      --text:#0f172a;
+      --muted:#64748b;
+      --border:#e2e8f0;
+      --china:#ef4444;
+      --china-soft:#fee2e2;
+      --russia:#2563eb;
+      --russia-soft:#dbeafe;
+      --green:#16a34a;
+      --green-dark:#15803d;
+      --dark:#0f172a;
+      --shadow:0 12px 30px rgba(15,23,42,.08);
+      --radius:22px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:Arial, Helvetica, sans-serif;
+      background:linear-gradient(180deg,#eef4ff 0%,#f8fbff 100%);
+      color:var(--text);
+    }
+    .container{
+      max-width:1280px;
+      margin:0 auto;
+      padding:24px;
+    }
+    .hero{
+      background:linear-gradient(135deg,#ffffff 0%,#eef5ff 100%);
+      border:1px solid var(--border);
+      border-radius:28px;
+      box-shadow:var(--shadow);
+      padding:28px;
+      margin-bottom:24px;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      margin-bottom:10px;
+    }
+    .logo{
+      width:58px;
+      height:58px;
+      border-radius:18px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:linear-gradient(135deg,var(--russia),var(--china));
+      color:#fff;
+      font-weight:700;
+      font-size:24px;
+      box-shadow:0 10px 24px rgba(37,99,235,.22);
+      flex:0 0 auto;
+    }
+    h1{
+      margin:0;
+      font-size:36px;
+      line-height:1.1;
+    }
+    .subtitle{
+      margin:0;
+      color:var(--muted);
+      font-size:16px;
+      max-width:780px;
+      line-height:1.6;
+    }
+    .top-actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+      margin-top:18px;
+    }
+    button{
+      border:none;
+      border-radius:14px;
+      padding:14px 20px;
+      font-size:15px;
+      font-weight:700;
+      cursor:pointer;
+      transition:.2s ease;
+    }
+    .btn-primary{
+      background:var(--green);
+      color:#fff;
+    }
+    .btn-primary:hover{ background:var(--green-dark); transform:translateY(-1px); }
+    .btn-secondary{
+      background:#fff;
+      border:1px solid var(--border);
+      color:var(--text);
+    }
+    .btn-secondary:hover{ background:#f8fafc; transform:translateY(-1px); }
+
+    .grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:24px;
+      align-items:start;
+    }
+    .card{
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      overflow:hidden;
+    }
+    .card-head{
+      padding:18px 22px;
+      font-size:24px;
+      font-weight:700;
+    }
+    .china-head{
+      background:linear-gradient(135deg,var(--china-soft),#fff5f5);
+      color:#b91c1c;
+      border-bottom:1px solid #fecaca;
+    }
+    .russia-head{
+      background:linear-gradient(135deg,var(--russia-soft),#f2f8ff);
+      color:#1d4ed8;
+      border-bottom:1px solid #bfdbfe;
+    }
+    .card-body{ padding:18px; }
+    .section{
+      background:#fafcff;
+      border:1px solid var(--border);
+      border-radius:18px;
+      padding:16px;
+      margin-bottom:14px;
+    }
+    .section h3{
+      margin:0 0 12px 0;
+      font-size:17px;
+    }
+    .field-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+    }
+    .field{
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+    }
+    .field.full{ grid-column:1 / -1; }
+    label{
+      font-size:13px;
+      color:var(--muted);
+      font-weight:700;
+    }
+    input{
+      width:100%;
+      border:1px solid var(--border);
+      background:#fff;
+      border-radius:12px;
+      padding:12px 13px;
+      font-size:14px;
+      outline:none;
+    }
+    input:focus{
+      border-color:#93c5fd;
+      box-shadow:0 0 0 4px rgba(59,130,246,.12);
+    }
+    .unit{
+      margin-top:10px;
+      background:var(--dark);
+      color:#fff;
+      border-radius:18px;
+      padding:16px;
+    }
+    .unit h3{
+      margin:0 0 12px 0;
+      font-size:18px;
+    }
+    .unit-grid{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:10px;
+    }
+    .unit-box{
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:14px;
+      padding:14px;
+      text-align:center;
+    }
+    .unit-box .name{
+      display:block;
+      color:#cbd5e1;
+      font-size:12px;
+      margin-bottom:8px;
+      font-weight:700;
+    }
+    .unit-box .value{
+      font-size:24px;
+      font-weight:700;
+    }
+    .compare{
+      margin-top:24px;
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius:24px;
+      box-shadow:var(--shadow);
+      padding:22px;
+    }
+    .compare h2{
+      margin:0 0 8px 0;
+      font-size:28px;
+    }
+    .compare p{
+      margin:0 0 16px 0;
+      color:var(--muted);
+      line-height:1.5;
+    }
+    .compare-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:20px;
+    }
+    .compare-box{
+      border-radius:18px;
+      padding:18px;
+      border:1px solid var(--border);
+    }
+    .compare-china{ background:#fff5f5; }
+    .compare-russia{ background:#f3f8ff; }
+    .compare-box h3{
+      margin-top:0;
+      margin-bottom:12px;
+      font-size:22px;
+    }
+    .compare-row{
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius:12px;
+      padding:12px 14px;
+      margin-bottom:10px;
+      font-size:14px;
+    }
+    .winner{
+      margin-top:14px;
+      padding:16px;
+      border-radius:16px;
+      background:#f8fafc;
+      border:1px dashed #cbd5e1;
+      font-size:16px;
+      font-weight:700;
+    }
+    .help{
+      margin-top:10px;
+      color:var(--muted);
+      font-size:13px;
+    }
+    @media print{
+      .top-actions{ display:none; }
+      body{ background:#fff; }
+      .hero,.card,.compare{ box-shadow:none; }
+      .container{ max-width:100%; padding:0; }
+    }
+    @media (max-width: 980px){
+      .grid,.compare-grid,.unit-grid,.field-grid{ grid-template-columns:1fr; }
+      .container{ padding:14px; }
+      h1{ font-size:30px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <section class="hero">
+      <div class="brand">
+        <div class="logo">A</div>
+        <div>
+          <h1>AfiImport</h1>
+        </div>
+      </div>
+      <p class="subtitle">Красивый и понятный калькулятор для расчета товара из Китая и России. Внизу есть сравнение и кнопка для сохранения отчета в PDF.</p>
+      <div class="top-actions">
+        <button class="btn-primary" onclick="calculateAll()">Рассчитать</button>
+        <button class="btn-secondary" onclick="savePdf()">Скачать отчет PDF</button>
+      </div>
+    </section>
+
+    <section class="grid">
+      <div class="card">
+        <div class="card-head china-head">1. Заказ товара из Китая</div>
+        <div class="card-body">
+
+          <div class="section">
+            <h3>1. Товар</h3>
+            <div class="field-grid">
+              <div class="field full">
+                <label>Название товара</label>
+                <input id="c_name" type="text" placeholder="Например: триммер" />
+              </div>
+              <div class="field">
+                <label>Цена товара (¥ / $)</label>
+                <input id="c_price" type="number" placeholder="0" />
+              </div>
+              <div class="field">
+                <label>Количество</label>
+                <input id="c_qty" type="number" placeholder="0" />
+              </div>
+              <div class="field full">
+                <label>Вес товара</label>
+                <input id="c_weight" type="number" placeholder="0" />
+              </div>
+            </div>
+          </div>
+
+          <div class="section">
+            <h3>2. Фулфилмент Китай</h3>
+            <div class="field-grid">
+              <div class="field">
+                <label>Упаковка</label>
+                <input id="c_pack_cn" type="number" placeholder="0" />
+              </div>
+              <div class="field">
+                <label>Рабочие</label>
+                <input id="c_workers_cn" type="number" placeholder="0" />
+              </div>
+              <div class="field full">
+                <label>Доставка WenZhou → Yiwu</label>
+                <input id="c_wy" type="number" placeholder="0" />
+              </div>
+            </div>
+          </div>
+
+          <div class="section">
+            <h3>3. Мелкие расходы</h3>
+            <div class="field-grid">
+              <div class="field full">
+                <label>Дополнительные расходы</label>
+                <input id="c_small" type="number" placeholder="0" />
+              </div>
+            </div>
+          </div>
+
+          <div class="section">
+            <h3>4. Доставка карго Китай → Россия</h3>
+            <div class="field-grid">
+              <div class="field">
+                <label>Карго</label>
+                <input id="c_cargo" type="number" placeholder="0" />
+              </div>
+              <div class="field">
+                <label>Таможня</label>
+                <input id="c_customs" type="number" placeholder="0" />
+              </div>
+              <div class="field full">
+                <label>Упаковка</label>
+                <input id="c_pack_ru" type="number" placeholder="0" />
+              </div>
+            </div>
+          </div>
+
+          <div class="section">
+            <h3>5. Получение товара в Москве</h3>
+            <div class="field-grid">
+              <div class="field">
+                <label>Доставка Россия</label>
+                <input id="c_delivery_ru" type="number" placeholder="0" />
+              </div>
+              <div class="field">
+                <label>Заезд машины на рынок</label>
+                <input id="c_market" type="number" placeholder="0" />
+              </div>
+              <div class="field full">
+                <label>Рабочие</label>
+                <input id="c_workers_ru" type="number" placeholder="0" />
+              </div>
+            </div>
+          </div>
+
+          <div class="section">
+            <h3>6. Продажи</h3>
+            <div class="field-grid">
+              <div class="field">
+                <label>Цена продажи</label>
+                <input id="c_sale" type="number" placeholder="0" />
+              </div>
+            </div>
+          </div>
+
+          <div class="unit">
+            <h3>Unit экономика Китай</h3>
+            <div class="unit-grid">
+              <div class="unit-box"><span class="name">Общий расход</span><div class="value" id="c_total">0</div></div>
+              <div class="unit-box"><span class="name">Себестоимость</span><div class="value" id="c_unit">0</div></div>
+              <div class="unit-box"><span class="name">Прибыль</span><div class="value" id="c_profit">0</div></div>
+              <div class="unit-box"><span class="name">Маржа</span><div class="value" id="c_margin">0%</div></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head russia-head">2. Заказ товара из России</div>
+        <div class="card-body">
+
+          <div class="section">
+            <h3>1. Товар</h3>
+            <div class="field-grid">
+              <div class="field full">
+                <label>Название товара</label>
+                <input id="r_name" type="text" placeholder="Например: термос" />
+              </div>
+              <div class="field">
+                <label>Цена товара</label>
+                <input id="r_price" type="number" placeholder="0" />
+              </div>
+              <div class="field">
+                <label>Количество</label>
+                <input id="r_qty" type="number" placeholder="0" />
+              </div>
+              <div class="field full">
+                <label>Вес товара</label>
+                <input id="r_weight" type="number" placeholder="0" />
+              </div>
+            </div>
+          </div>
+
+          <div class="section">
+            <h3>2. Фулфилмент</h3>
+            <div class="field-grid">
+              <div class="field">
+                <label>Забрать товар с рынка</label>
+                <input id="r_pickup" type="number" placeholder="0" />
+              </div>
+              <div class="field">
+                <label>Упаковка</label>
+                <input id="r_pack" type="number" placeholder="0" />
+              </div>
+              <div class="field full">
+                <label>Приемка</label>
+                <input id="r_accept" type="number" placeholder="0" />
+              </div>
+            </div>
+          </div>
+
+          <div class="section">
+            <h3>3. Продажи</h3>
+            <div class="field-grid">
+              <div class="field">
+                <label>Цена продажи</label>
+                <input id="r_sale" type="number" placeholder="0" />
+              </div>
+            </div>
+          </div>
+
+          <div class="unit">
+            <h3>Unit экономика Россия</h3>
+            <div class="unit-grid">
+              <div class="unit-box"><span class="name">Общий расход</span><div class="value" id="r_total">0</div></div>
+              <div class="unit-box"><span class="name">Себестоимость</span><div class="value" id="r_unit">0</div></div>
+              <div class="unit-box"><span class="name">Прибыль</span><div class="value" id="r_profit">0</div></div>
+              <div class="unit-box"><span class="name">Маржа</span><div class="value" id="r_margin">0%</div></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="compare">
+      <h2>3. Сравнение: Китай vs Россия</h2>
+      <p>Сначала заполни суммы, потом нажми “Рассчитать”. Если хочешь отчет, нажми “Скачать отчет PDF”.</p>
+      <div class="compare-grid">
+        <div class="compare-box compare-china">
+          <h3>Китай</h3>
+          <div class="compare-row"><span>Общий расход</span><strong id="cc_total">0</strong></div>
+          <div class="compare-row"><span>Себестоимость</span><strong id="cc_unit">0</strong></div>
+          <div class="compare-row"><span>Прибыль</span><strong id="cc_profit">0</strong></div>
+          <div class="compare-row"><span>Маржа</span><strong id="cc_margin">0%</strong></div>
+        </div>
+        <div class="compare-box compare-russia">
+          <h3>Россия</h3>
+          <div class="compare-row"><span>Общий расход</span><strong id="rr_total">0</strong></div>
+          <div class="compare-row"><span>Себестоимость</span><strong id="rr_unit">0</strong></div>
+          <div class="compare-row"><span>Прибыль</span><strong id="rr_profit">0</strong></div>
+          <div class="compare-row"><span>Маржа</span><strong id="rr_margin">0%</strong></div>
+        </div>
+      </div>
+      <div class="winner" id="winner">Победитель: сначала рассчитай данные.</div>
+      <div class="help">PDF сохраняется через окно печати браузера: после нажатия выбери <b>Save as PDF</b>.</div>
+    </section>
+  </div>
+
+  <script>
+    function num(id){
+      return Number(document.getElementById(id).value) || 0;
+    }
+    function fmt(v){
+      return Math.round(v * 100) / 100;
+    }
+    function margin(profit, sale){
+      if(!sale) return 0;
+      return (profit / sale) * 100;
+    }
+    function setText(id, value){
+      document.getElementById(id).textContent = value;
+    }
+
+    function calculateAll(){
+      // China
+      const c_qty = num("c_qty");
+      const c_goods = num("c_price") * c_qty;
+      const c_total =
+        c_goods +
+        num("c_pack_cn") +
+        num("c_workers_cn") +
+        num("c_wy") +
+        num("c_small") +
+        num("c_cargo") +
+        num("c_customs") +
+        num("c_pack_ru") +
+        num("c_delivery_ru") +
+        num("c_market") +
+        num("c_workers_ru");
+
+      const c_unit = c_qty ? c_total / c_qty : 0;
+      const c_profit = num("c_sale") - c_unit;
+      const c_margin = margin(c_profit, num("c_sale"));
+
+      setText("c_total", fmt(c_total));
+      setText("c_unit", fmt(c_unit));
+      setText("c_profit", fmt(c_profit));
+      setText("c_margin", fmt(c_margin) + "%");
+
+      setText("cc_total", fmt(c_total));
+      setText("cc_unit", fmt(c_unit));
+      setText("cc_profit", fmt(c_profit));
+      setText("cc_margin", fmt(c_margin) + "%");
+
+      // Russia
+      const r_qty = num("r_qty");
+      const r_goods = num("r_price") * r_qty;
+      const r_total =
+        r_goods +
+        num("r_pickup") +
+        num("r_pack") +
+        num("r_accept");
+
+      const r_unit = r_qty ? r_total / r_qty : 0;
+      const r_profit = num("r_sale") - r_unit;
+      const r_margin = margin(r_profit, num("r_sale"));
+
+      setText("r_total", fmt(r_total));
+      setText("r_unit", fmt(r_unit));
+      setText("r_profit", fmt(r_profit));
+      setText("r_margin", fmt(r_margin) + "%");
+
+      setText("rr_total", fmt(r_total));
+      setText("rr_unit", fmt(r_unit));
+      setText("rr_profit", fmt(r_profit));
+      setText("rr_margin", fmt(r_margin) + "%");
+
+      // Winner
+      let winner = "Победитель: ";
+      if (c_profit > r_profit) {
+        winner += "Китай выгоднее.";
+      } else if (r_profit > c_profit) {
+        winner += "Россия выгоднее.";
+      } else {
+        winner += "Одинаковый результат.";
+      }
+      document.getElementById("winner").textContent = winner;
+    }
+
+    function savePdf(){
+      calculateAll();
+      window.print();
+    }
+  </script>
+</body>
+</html>
